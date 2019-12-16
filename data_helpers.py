@@ -4,14 +4,15 @@ import re
 
 def clean_str(string):
     """
+    替换部分字符 
     Tokenization/string cleaning for all datasets except for SST.
     Original taken from https://github.com/yoonkim/CNN_sentence/blob/master/process_data.py
     """
-    string = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", string)
-    string = re.sub(r"\'s", " \'s", string)
-    string = re.sub(r"\'ve", " \'ve", string)
-    string = re.sub(r"n\'t", " n\'t", string)
-    string = re.sub(r"\'re", " \'re", string)
+    string = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", string)  # 排除非法字符，全部替换为空格
+    string = re.sub(r"\'s", " \'s", string)  # 把带's的单词分开 what's --> what 's
+    string = re.sub(r"\'ve", " \'ve", string)  # I've --> I 've
+    string = re.sub(r"n\'t", " n\'t", string)  # don't --> do n't
+    string = re.sub(r"\'re", " \'re", string)  # 以下类推
     string = re.sub(r"\'d", " \'d", string)
     string = re.sub(r"\'ll", " \'ll", string)
     string = re.sub(r",", " , ", string)
@@ -20,11 +21,11 @@ def clean_str(string):
     string = re.sub(r"\)", " \) ", string)
     string = re.sub(r"\?", " \? ", string)
     string = re.sub(r"\s{2,}", " ", string)
-    return string.strip().lower()
-
+    return string.strip().lower() # 去掉两边空格，全部转化为小写
 
 def load_data_and_labels(positive_data_file, negative_data_file):
     """
+    生成分词好的数据以及标签
     Loads MR polarity data from files, splits the data into words and generates labels.
     Returns split sentences and labels.
     """
